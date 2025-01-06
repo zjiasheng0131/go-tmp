@@ -1,0 +1,976 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "The infra layer for Forti test Cloud",
+        "title": "Fortinet Test Cloud API",
+        "contact": {
+            "name": "Kunlun(Kevin) GUAN",
+            "email": "kguan@fortinet.com"
+        },
+        "version": "1.0.0"
+    },
+    "host": "localhost:8000",
+    "paths": {
+        "/image": {
+            "get": {
+                "description": "Filter by OS, version, CPU Architect and so on",
+                "tags": [
+                    "Image"
+                ],
+                "summary": "List images by the tags",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/test-cloud_api_v1.Image"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Based on the device's type and version",
+                "tags": [
+                    "Image(IaaS inner use only)"
+                ],
+                "summary": "Create an image for a specified hardware device",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.Image"
+                        }
+                    }
+                }
+            }
+        },
+        "/image/{id}": {
+            "get": {
+                "description": "Such as storage type, tags, created time",
+                "tags": [
+                    "Image(IaaS inner use only)"
+                ],
+                "summary": "Get the details for an image",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Image ID",
+                        "name": "imageId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an image by its ID in case there is no referenced to it by VM(s)",
+                "tags": [
+                    "Image(IaaS inner use only)"
+                ],
+                "summary": "Delete an image",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Image ID",
+                        "name": "imageId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/ipam": {
+            "post": {
+                "description": "It will reserve an IP from a network for the NIC",
+                "tags": [
+                    "IPAM"
+                ],
+                "summary": "Reserve IP for a specific net interface",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.GetVMResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "It will release an IP from a network for the NIC",
+                "tags": [
+                    "IPAM"
+                ],
+                "summary": "Release IP for a specific net interface",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.GetVMResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/ipam/{vmid}": {
+            "get": {
+                "description": "Get the IP-MAC pairs and its associated network \u0026 tags for a VM",
+                "tags": [
+                    "IPAM"
+                ],
+                "summary": "Get the NICs for a VM",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "VM ID",
+                        "name": "vmid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.GetVMResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "仅调试用"
+                ],
+                "summary": "Login an account",
+                "parameters": [
+                    {
+                        "description": "params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.LoginResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/network": {
+            "post": {
+                "description": "Create a network if the net segment and VLAN is not created before",
+                "tags": [
+                    "Net"
+                ],
+                "summary": "Create a network with a tagged VLAN",
+                "parameters": [
+                    {
+                        "description": "The network creation request",
+                        "name": "Network",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.Network"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/network/available": {
+            "get": {
+                "description": "If topN is not included, return all the available networks",
+                "tags": [
+                    "Net"
+                ],
+                "summary": "Get the topN (if included) available networks",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "topN",
+                        "name": "topN",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "Indicate if the result set should include the control network",
+                        "name": "ctrlNet",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.Network"
+                        }
+                    }
+                }
+            }
+        },
+        "/network/{id}": {
+            "get": {
+                "description": "Return all the IP allocation/remains and tags",
+                "tags": [
+                    "Net"
+                ],
+                "summary": "Get the details for a specific network",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Network ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.Network"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update the network.",
+                "tags": [
+                    "Net"
+                ],
+                "summary": "Update the network by the network ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Network ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "The network update request",
+                        "name": "Network",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.Network"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_internal_model.Network"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete the network if there is no reference, otherwise failed.",
+                "tags": [
+                    "Net"
+                ],
+                "summary": "Delete the network by the network ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Network ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_internal_model.Network"
+                        }
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "description": "目前只支持邮箱登录",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "仅调试用"
+                ],
+                "summary": "User Register",
+                "parameters": [
+                    {
+                        "description": "params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.RegisterRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/scheduler": {
+            "get": {
+                "description": "Based on the CPU and memory size",
+                "tags": [
+                    "Scheduler(IaaS inner use only)"
+                ],
+                "summary": "Choose the right server based on the flavor a VM",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Image ID",
+                        "name": "imageId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "仅调试用"
+                ],
+                "summary": "Get user details",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.GetProfileResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/vm": {
+            "post": {
+                "description": "Provision the VM based on the user requested flavor",
+                "tags": [
+                    "VM"
+                ],
+                "summary": "Provision the VM",
+                "parameters": [
+                    {
+                        "description": "The VM Creation request",
+                        "name": "VMRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.CreateVMRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "Id sent by client as to avoid duplicated requests",
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.GetVMResponse"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vm/{id}": {
+            "get": {
+                "description": "If the virtual machine is under preparation, you could get its current stage and status;\nIf the virtual machine is ready, you could get its details configuration such as disk list and ip/mac list,\nand also the status.",
+                "tags": [
+                    "VM"
+                ],
+                "summary": "Get the VM details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "VM ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.GetVMResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Destroy the VM and all its used/owned volumes and Nics and IPs.",
+                "tags": [
+                    "VM"
+                ],
+                "summary": "Destroy the VM by a VM ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "VM ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Id sent by client as to avoid duplicated request",
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.GetVMResponse"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vm/{id}/shutdown": {
+            "put": {
+                "description": "This is similar to pressing the power button on a physical machine.\nThis will send an ACPI event for the guest OS, which should then proceed to a clean shutdown.",
+                "tags": [
+                    "VM"
+                ],
+                "summary": "Shutdown the VM by a VM ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "VM ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Id sent by client as to avoid duplicated request",
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.GetVMResponse"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vm/{id}/start": {
+            "put": {
+                "tags": [
+                    "VM"
+                ],
+                "summary": "Start the VM by a VM ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "VM ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Id sent by client as to avoid duplicated request",
+                        "name": "X-Request-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/test-cloud_api_v1.GetVMResponse"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "test-cloud_api_v1.CreateVMRequest": {
+            "type": "object",
+            "properties": {
+                "cpu": {
+                    "type": "integer"
+                },
+                "disks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/test-cloud_internal_model.Disk"
+                    }
+                },
+                "metadata": {
+                    "$ref": "#/definitions/test-cloud_api_v1.Metadata"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nics": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/test-cloud_internal_model.Nic"
+                    }
+                },
+                "osFamily": {
+                    "type": "string"
+                },
+                "osVersion": {
+                    "type": "string"
+                },
+                "proxmoxId": {
+                    "type": "integer"
+                },
+                "ram": {
+                    "type": "integer"
+                },
+                "templateId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "test-cloud_api_v1.GetProfileResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/test-cloud_api_v1.GetProfileResponseData"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "test-cloud_api_v1.GetProfileResponseData": {
+            "type": "object",
+            "properties": {
+                "nickname": {
+                    "type": "string",
+                    "example": "alan"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "test-cloud_api_v1.GetVMResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/test-cloud_api_v1.GetVMResponseData"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "test-cloud_api_v1.GetVMResponseData": {
+            "type": "object",
+            "properties": {
+                "cpu": {
+                    "type": "integer"
+                },
+                "disks": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nics": {
+                    "type": "string"
+                },
+                "osFamily": {
+                    "type": "string"
+                },
+                "osVersion": {
+                    "type": "string"
+                },
+                "ram": {
+                    "type": "integer"
+                },
+                "requestId": {
+                    "type": "string"
+                },
+                "templateId": {
+                    "type": "integer"
+                },
+                "vmname": {
+                    "type": "string",
+                    "example": "ubuntu"
+                }
+            }
+        },
+        "test-cloud_api_v1.Image": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "osFamily": {
+                    "type": "string"
+                },
+                "osName": {
+                    "type": "string"
+                },
+                "osVersion": {
+                    "type": "string"
+                },
+                "templateId": {
+                    "type": "integer"
+                },
+                "templateName": {
+                    "type": "string"
+                }
+            }
+        },
+        "test-cloud_api_v1.LoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "1234@gmail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                }
+            }
+        },
+        "test-cloud_api_v1.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "$ref": "#/definitions/test-cloud_api_v1.LoginResponseData"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "test-cloud_api_v1.LoginResponseData": {
+            "type": "object",
+            "properties": {
+                "accessToken": {
+                    "type": "string"
+                }
+            }
+        },
+        "test-cloud_api_v1.Metadata": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "sshKey": {
+                    "type": "string"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "user": {
+                    "type": "string"
+                }
+            }
+        },
+        "test-cloud_api_v1.Network": {
+            "type": "object",
+            "required": [
+                "dhcpServerId",
+                "gateway",
+                "maskBitCount",
+                "name",
+                "netSegment",
+                "vlan"
+            ],
+            "properties": {
+                "ctrlNet": {
+                    "type": "boolean"
+                },
+                "dhcpEnabled": {
+                    "type": "boolean"
+                },
+                "dhcpLeaseTime": {
+                    "type": "integer"
+                },
+                "dhcpRange": {
+                    "type": "string"
+                },
+                "dhcpServerId": {
+                    "type": "string"
+                },
+                "dnsServer": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "extAccess": {
+                    "type": "boolean"
+                },
+                "gateway": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "maskBitCount": {
+                    "type": "integer",
+                    "maximum": 32,
+                    "minimum": 8
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 200
+                },
+                "netSegment": {
+                    "type": "string"
+                },
+                "vlan": {
+                    "type": "integer"
+                }
+            }
+        },
+        "test-cloud_api_v1.RegisterRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "1234@gmail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "123456"
+                }
+            }
+        },
+        "test-cloud_api_v1.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "test-cloud_internal_model.Disk": {
+            "type": "object",
+            "properties": {
+                "index": {
+                    "type": "integer"
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "test-cloud_internal_model.Network": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "ctrlNet": {
+                    "type": "boolean"
+                },
+                "dhcpEnabled": {
+                    "type": "boolean"
+                },
+                "dhcpLeaseTime": {
+                    "type": "integer"
+                },
+                "dhcpRange": {
+                    "type": "string"
+                },
+                "dhcpServerId": {
+                    "type": "string"
+                },
+                "dnsServer": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "extAccess": {
+                    "type": "boolean"
+                },
+                "gateway": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "maskBitCount": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "netSegment": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "vlan": {
+                    "type": "integer"
+                }
+            }
+        },
+        "test-cloud_internal_model.Nic": {
+            "type": "object",
+            "properties": {
+                "dnsServer": {
+                    "type": "string"
+                },
+                "gateway": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "integer"
+                },
+                "ip": {
+                    "type": "string"
+                },
+                "mac": {
+                    "type": "string"
+                },
+                "maskBitCount": {
+                    "type": "integer"
+                },
+                "netId": {
+                    "type": "integer"
+                },
+                "netName": {
+                    "type": "string"
+                },
+                "vlan": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

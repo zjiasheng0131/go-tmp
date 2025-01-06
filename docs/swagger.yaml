@@ -1,0 +1,648 @@
+definitions:
+  test-cloud_api_v1.CreateVMRequest:
+    properties:
+      cpu:
+        type: integer
+      disks:
+        items:
+          $ref: '#/definitions/test-cloud_internal_model.Disk'
+        type: array
+      metadata:
+        $ref: '#/definitions/test-cloud_api_v1.Metadata'
+      name:
+        type: string
+      nics:
+        items:
+          $ref: '#/definitions/test-cloud_internal_model.Nic'
+        type: array
+      osFamily:
+        type: string
+      osVersion:
+        type: string
+      proxmoxId:
+        type: integer
+      ram:
+        type: integer
+      templateId:
+        type: integer
+    type: object
+  test-cloud_api_v1.GetProfileResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/test-cloud_api_v1.GetProfileResponseData'
+      message:
+        type: string
+    type: object
+  test-cloud_api_v1.GetProfileResponseData:
+    properties:
+      nickname:
+        example: alan
+        type: string
+      userId:
+        type: string
+    type: object
+  test-cloud_api_v1.GetVMResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/test-cloud_api_v1.GetVMResponseData'
+      message:
+        type: string
+    type: object
+  test-cloud_api_v1.GetVMResponseData:
+    properties:
+      cpu:
+        type: integer
+      disks:
+        type: string
+      name:
+        type: string
+      nics:
+        type: string
+      osFamily:
+        type: string
+      osVersion:
+        type: string
+      ram:
+        type: integer
+      requestId:
+        type: string
+      templateId:
+        type: integer
+      vmname:
+        example: ubuntu
+        type: string
+    type: object
+  test-cloud_api_v1.Image:
+    properties:
+      enabled:
+        type: boolean
+      osFamily:
+        type: string
+      osName:
+        type: string
+      osVersion:
+        type: string
+      templateId:
+        type: integer
+      templateName:
+        type: string
+    type: object
+  test-cloud_api_v1.LoginRequest:
+    properties:
+      email:
+        example: 1234@gmail.com
+        type: string
+      password:
+        example: "123456"
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  test-cloud_api_v1.LoginResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/test-cloud_api_v1.LoginResponseData'
+      message:
+        type: string
+    type: object
+  test-cloud_api_v1.LoginResponseData:
+    properties:
+      accessToken:
+        type: string
+    type: object
+  test-cloud_api_v1.Metadata:
+    properties:
+      password:
+        type: string
+      sshKey:
+        type: string
+      tags:
+        additionalProperties:
+          type: string
+        type: object
+      user:
+        type: string
+    type: object
+  test-cloud_api_v1.Network:
+    properties:
+      ctrlNet:
+        type: boolean
+      dhcpEnabled:
+        type: boolean
+      dhcpLeaseTime:
+        type: integer
+      dhcpRange:
+        type: string
+      dhcpServerId:
+        type: string
+      dnsServer:
+        type: string
+      enabled:
+        type: boolean
+      extAccess:
+        type: boolean
+      gateway:
+        type: string
+      id:
+        type: integer
+      maskBitCount:
+        maximum: 32
+        minimum: 8
+        type: integer
+      name:
+        maxLength: 200
+        type: string
+      netSegment:
+        type: string
+      vlan:
+        type: integer
+    required:
+    - dhcpServerId
+    - gateway
+    - maskBitCount
+    - name
+    - netSegment
+    - vlan
+    type: object
+  test-cloud_api_v1.RegisterRequest:
+    properties:
+      email:
+        example: 1234@gmail.com
+        type: string
+      password:
+        example: "123456"
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  test-cloud_api_v1.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+  test-cloud_internal_model.Disk:
+    properties:
+      index:
+        type: integer
+      size:
+        type: integer
+    type: object
+  test-cloud_internal_model.Network:
+    properties:
+      createdAt:
+        type: string
+      ctrlNet:
+        type: boolean
+      dhcpEnabled:
+        type: boolean
+      dhcpLeaseTime:
+        type: integer
+      dhcpRange:
+        type: string
+      dhcpServerId:
+        type: string
+      dnsServer:
+        type: string
+      enabled:
+        type: boolean
+      extAccess:
+        type: boolean
+      gateway:
+        type: string
+      id:
+        type: integer
+      maskBitCount:
+        type: integer
+      name:
+        type: string
+      netSegment:
+        type: string
+      updatedAt:
+        type: string
+      vlan:
+        type: integer
+    type: object
+  test-cloud_internal_model.Nic:
+    properties:
+      dnsServer:
+        type: string
+      gateway:
+        type: string
+      index:
+        type: integer
+      ip:
+        type: string
+      mac:
+        type: string
+      maskBitCount:
+        type: integer
+      netId:
+        type: integer
+      netName:
+        type: string
+      vlan:
+        type: integer
+    type: object
+host: localhost:8000
+info:
+  contact:
+    email: kguan@fortinet.com
+    name: Kunlun(Kevin) GUAN
+  description: The infra layer for Forti test Cloud
+  title: Fortinet Test Cloud API
+  version: 1.0.0
+paths:
+  /image:
+    get:
+      description: Filter by OS, version, CPU Architect and so on
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/test-cloud_api_v1.Image'
+            type: array
+      summary: List images by the tags
+      tags:
+      - Image
+    post:
+      description: Based on the device's type and version
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.Image'
+      summary: Create an image for a specified hardware device
+      tags:
+      - Image(IaaS inner use only)
+  /image/{id}:
+    delete:
+      description: Delete an image by its ID in case there is no referenced to it
+        by VM(s)
+      parameters:
+      - description: Image ID
+        in: path
+        name: imageId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+      summary: Delete an image
+      tags:
+      - Image(IaaS inner use only)
+    get:
+      description: Such as storage type, tags, created time
+      parameters:
+      - description: Image ID
+        in: path
+        name: imageId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+      summary: Get the details for an image
+      tags:
+      - Image(IaaS inner use only)
+  /ipam:
+    delete:
+      description: It will release an IP from a network for the NIC
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.GetVMResponse'
+      summary: Release IP for a specific net interface
+      tags:
+      - IPAM
+    post:
+      description: It will reserve an IP from a network for the NIC
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.GetVMResponse'
+      summary: Reserve IP for a specific net interface
+      tags:
+      - IPAM
+  /ipam/{vmid}:
+    get:
+      description: Get the IP-MAC pairs and its associated network & tags for a VM
+      parameters:
+      - description: VM ID
+        in: path
+        name: vmid
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.GetVMResponse'
+      summary: Get the NICs for a VM
+      tags:
+      - IPAM
+  /login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/test-cloud_api_v1.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.LoginResponse'
+      summary: Login an account
+      tags:
+      - 仅调试用
+  /network:
+    post:
+      description: Create a network if the net segment and VLAN is not created before
+      parameters:
+      - description: The network creation request
+        in: body
+        name: Network
+        required: true
+        schema:
+          $ref: '#/definitions/test-cloud_api_v1.Network'
+      responses:
+        "200":
+          description: OK
+      summary: Create a network with a tagged VLAN
+      tags:
+      - Net
+  /network/{id}:
+    delete:
+      description: Delete the network if there is no reference, otherwise failed.
+      parameters:
+      - description: Network ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_internal_model.Network'
+      summary: Delete the network by the network ID
+      tags:
+      - Net
+    get:
+      description: Return all the IP allocation/remains and tags
+      parameters:
+      - description: Network ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.Network'
+      summary: Get the details for a specific network
+      tags:
+      - Net
+    put:
+      description: Update the network.
+      parameters:
+      - description: Network ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: The network update request
+        in: body
+        name: Network
+        required: true
+        schema:
+          $ref: '#/definitions/test-cloud_api_v1.Network'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_internal_model.Network'
+      summary: Update the network by the network ID
+      tags:
+      - Net
+  /network/available:
+    get:
+      description: If topN is not included, return all the available networks
+      parameters:
+      - description: topN
+        in: query
+        name: topN
+        type: integer
+      - description: Indicate if the result set should include the control network
+        in: query
+        name: ctrlNet
+        type: boolean
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.Network'
+      summary: Get the topN (if included) available networks
+      tags:
+      - Net
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: 目前只支持邮箱登录
+      parameters:
+      - description: params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/test-cloud_api_v1.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.Response'
+      summary: User Register
+      tags:
+      - 仅调试用
+  /scheduler:
+    get:
+      description: Based on the CPU and memory size
+      parameters:
+      - description: Image ID
+        in: path
+        name: imageId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+      summary: Choose the right server based on the flavor a VM
+      tags:
+      - Scheduler(IaaS inner use only)
+  /user:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.GetProfileResponse'
+      security:
+      - Bearer: []
+      summary: Get user details
+      tags:
+      - 仅调试用
+  /vm:
+    post:
+      description: Provision the VM based on the user requested flavor
+      parameters:
+      - description: The VM Creation request
+        in: body
+        name: VMRequest
+        required: true
+        schema:
+          $ref: '#/definitions/test-cloud_api_v1.CreateVMRequest'
+      - description: Id sent by client as to avoid duplicated requests
+        in: header
+        name: X-Request-Id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Request-Id:
+              type: string
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.GetVMResponse'
+      summary: Provision the VM
+      tags:
+      - VM
+  /vm/{id}:
+    delete:
+      description: Destroy the VM and all its used/owned volumes and Nics and IPs.
+      parameters:
+      - description: VM ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Id sent by client as to avoid duplicated request
+        in: header
+        name: X-Request-Id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Request-Id:
+              type: string
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.GetVMResponse'
+      summary: Destroy the VM by a VM ID
+      tags:
+      - VM
+    get:
+      description: |-
+        If the virtual machine is under preparation, you could get its current stage and status;
+        If the virtual machine is ready, you could get its details configuration such as disk list and ip/mac list,
+        and also the status.
+      parameters:
+      - description: VM ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.GetVMResponse'
+      summary: Get the VM details
+      tags:
+      - VM
+  /vm/{id}/shutdown:
+    put:
+      description: |-
+        This is similar to pressing the power button on a physical machine.
+        This will send an ACPI event for the guest OS, which should then proceed to a clean shutdown.
+      parameters:
+      - description: VM ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Id sent by client as to avoid duplicated request
+        in: header
+        name: X-Request-Id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Request-Id:
+              type: string
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.GetVMResponse'
+      summary: Shutdown the VM by a VM ID
+      tags:
+      - VM
+  /vm/{id}/start:
+    put:
+      parameters:
+      - description: VM ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Id sent by client as to avoid duplicated request
+        in: header
+        name: X-Request-Id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Request-Id:
+              type: string
+          schema:
+            $ref: '#/definitions/test-cloud_api_v1.GetVMResponse'
+      summary: Start the VM by a VM ID
+      tags:
+      - VM
+securityDefinitions:
+  Bearer:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
