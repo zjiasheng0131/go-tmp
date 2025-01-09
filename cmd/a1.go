@@ -6,6 +6,7 @@ import (
 
 	"github.com/james-0131-2/gocustom2"
 	"github.com/james-0131-2/jamesgo1"
+	"github.com/james-0131-2/agpl3"
 )
 
 func main() {
@@ -20,4 +21,6 @@ func main() {
 	fmt.Println("gocus", a1, e1)
 	a2, e2 := jamesgo1.ShanghaiToUTC("01:00")
 	fmt.Println("gocus", a2, e2)
+        a3, e3 := agpl3.ShanghaiToUTC("01:00")
+        fmt.Println("gocus", a3,e3)
 }
