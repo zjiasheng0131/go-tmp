@@ -29,6 +29,7 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/howeyc/fsnotify v0.9.0 // indirect
+	github.com/james-0131-2/agpl3 v0.0.0-20250109215212-352fc73dd746 // indirect
 	github.com/james-0131-2/gocustom2 v0.0.0-20250103012854-b546b59579b3 // indirect
 	github.com/james-0131-2/jamesgo1 v0.0.0-20250103023539-990c978a98fc // indirect
 	github.com/josharian/intern v1.0.0 // indirect

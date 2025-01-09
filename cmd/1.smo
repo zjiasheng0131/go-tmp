@@ -1,0 +1,188 @@
+[K| Loading component catalog... [K* Walking through the directory /root/go/go-tmp/cmd
+* Generating Lacework BOM of directory /root/go/go-tmp/cmd 
+* Generating file lists for artifacts
+* Scanning for secrets
+* Evaluating BOM model for issues
+* Running static analysis on directory /root/go/go-tmp/cmd
+* Running SAST...
+* Generating source control references for directory /root/go/go-tmp/cmd
+* Counting lines of code
+{
+  "SchemaVersion": 2,
+  "Metadata": {
+    "Id": "dbbb11a3-77cc-4ce2-9985-881c8bcc7b13",
+    "InputKind": "directory",
+    "InputLocation": "/root/go/go-tmp/cmd",
+    "InputOrigin": "ubuntu",
+    "CustomProperties": {
+      "deployment": "local",
+      "version": "0.1.24"
+    },
+    "Configs": {
+      "CommandLine": {
+        "pullRequest": null,
+        "scan": {
+          "fullBazel": false,
+          "includeJavaIndirect": true,
+          "includeDev": false,
+          "pullDeps": true,
+          "enableVulnEval": true,
+          "evalDirectOnly": false,
+          "enableDynamic": false,
+          "enableDynamicDev": false,
+          "inactiveOnly": false,
+          "activeOnly": false,
+          "enableScr": true,
+          "enableLicenses": true,
+          "licenseCategoriesNotAllowed": [
+            "forbidden",
+            "restricted"
+          ],
+          "enableSecrets": true,
+          "customSecrets": [
+            {
+              "id": "rule1",
+              "category": "general",
+              "title": "Generic Rule",
+              "severity": "HIGH",
+              "regex": "(?i)(?P\u003ckey\u003e(secret))(=|:).{0,5}['\"](?P\u003csecret\u003e[0-9a-zA-Z\\-_=]{8,64})['\"]",
+              "keywords": null,
+              "secret_group_name": "secret"
+            }
+          ],
+          "enableAcf": false,
+          "acfLocations": 5,
+          "enableFast": true,
+          "enableLoc": true,
+          "enableFixSuggestions": false
+        }
+      },
+      "Local": {
+        "pullRequest": null,
+        "scan": {
+          "licenseCategoriesNotAllowed": [
+            "forbidden",
+            "restricted"
+          ],
+          "enableSecrets": true,
+          "customSecrets": [
+            {
+              "id": "rule1",
+              "category": "general",
+              "title": "Generic Rule",
+              "severity": "HIGH",
+              "regex": "(?i)(?P\u003ckey\u003e(secret))(=|:).{0,5}['\"](?P\u003csecret\u003e[0-9a-zA-Z\\-_=]{8,64})['\"]",
+              "keywords": null,
+              "secret_group_name": ""
+            }
+          ]
+        }
+      },
+      "Merged": {
+        "pullRequest": {
+          "auditMode": false,
+          "comments": true,
+          "commentOnlyHighAndCritical": false
+        },
+        "scan": {
+          "fullBazel": false,
+          "includeJavaIndirect": true,
+          "includeDev": false,
+          "pullDeps": true,
+          "enableVulnEval": true,
+          "evalDirectOnly": false,
+          "enableDynamic": false,
+          "enableDynamicDev": false,
+          "inactiveOnly": false,
+          "activeOnly": false,
+          "enableScr": true,
+          "enableLicenses": true,
+          "licenseCategoriesNotAllowed": [
+            "forbidden",
+            "restricted"
+          ],
+          "enableSecrets": true,
+          "customSecrets": [
+            {
+              "id": "rule1",
+              "category": "general",
+              "title": "Generic Rule",
+              "severity": "HIGH",
+              "regex": "(?i)(?P\u003ckey\u003e(secret))(=|:).{0,5}['\"](?P\u003csecret\u003e[0-9a-zA-Z\\-_=]{8,64})['\"]",
+              "keywords": null,
+              "secret_group_name": "secret"
+            }
+          ],
+          "enableAcf": false,
+          "acfLocations": 5,
+          "enableFast": true,
+          "enableLoc": true,
+          "enableFixSuggestions": false
+        }
+      },
+      "Remote": {
+        "enabled": true,
+        "pullRequest": {
+          "auditMode": false,
+          "comments": true,
+          "commentOnlyHighAndCritical": false
+        },
+        "scan": {
+          "enableLicenses": true,
+          "enableSecrets": true,
+          "enableFast": true
+        }
+      }
+    },
+    "Platform": {
+      "architecture": "amd64",
+      "os": "linux",
+      "os.version": "20.04"
+    },
+    "Created": "2025-01-09T14:07:18.61408959-08:00"
+  },
+  "RootArtifactId": "ad7e7f64-27ba-47a2-b29d-2fb04dc27919",
+  "Artifacts": [
+    {
+      "Id": "ad7e7f64-27ba-47a2-b29d-2fb04dc27919",
+      "Name": "cmd",
+      "Path": "/root/go/go-tmp/cmd",
+      "Timestamp": "2025-01-09T14:07:17.517489676-08:00",
+      "Type": "dir",
+      "Class": "collection",
+      "Language": "none",
+      "Compare": {
+        "Hash": "e26b439c3ea41b2daa7a5554a856d731e4a6072e"
+      },
+      "Files": [
+        ".air.toml",
+        ".lacework/codesec.yaml",
+        "1.smo",
+        "a1.go",
+        "air.conf",
+        "app1.go",
+        "c1.go",
+        "cancel对于context生效的办法.go",
+        "fresh.yaml",
+        "log.log",
+        "log1.go",
+        "main.go"
+      ],
+      "LinesOfCode": {
+        "go": 148
+      }
+    }
+  ]
+}
+* Summary
+* Root artifact: cmd
+* Artifacts analyzed: 1
+* No packages found
+* Identities found: 0
+* Repositories found: 0
+* Licenses detected: 0 licenses in 0 expressions
+* Copyrights detected: 0 owners in 0 notices
+* License risks detected: 0
+* Secrets detected: 0
+* No vulnerabilities found
+* No weaknesses found
