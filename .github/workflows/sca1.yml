@@ -56,7 +56,7 @@ jobs:
 
       # Step 6: Compare results from the two scans and generate SARIF output 
       - name: Compare JSON Files and Generate SARIF 
-        run: lacework sca compare --new /tmp/lacework-scan-source.json --old /tmp/lacework-scan-target.json --output-format sarif -o /tmp/lacework-comparison.sarif 
+        run: lacework sca compare --new /tmp/lacework-scan-source.json --old /tmp/lacework-scan-target.json --formats sarif -o /tmp/lacework-comparison.sarif 
         # Compare the JSON outputs from the source and target branches 
         # Generate the comparison result in SARIF format and save to /tmp/lacework-comparison.sarif 
 
