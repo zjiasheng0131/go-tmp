@@ -8,7 +8,10 @@ on:
 jobs: 
   build: 
     runs-on: ubuntu-latest  # The job runs on the latest Ubuntu environment 
-
+    env:
+      LW_ACCOUNT: ${{ secrets.LW_ACCOUNT }}
+      LW_API_KEY: ${{ secrets.LW_API_KEY }}
+      LW_API_SECRET: ${{ secrets.LW_API_SECRET }}
     steps: 
       - name: echo secreate
         run: echo secret1  ${{ secrets.LW_ACCOUNT }}  ${{ secrets.LW_API_KEY }}  ${{ secrets.LW_API_SECRET }}
