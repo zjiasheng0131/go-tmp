@@ -21,8 +21,7 @@ jobs:
           lacework component install sca 
 
       - name: echo branch
-        run: echo header  ${{ github.event.pull_request.head.ref }}
-        run: echo base ${{ github.event.pull_request.base.ref }}
+        run: echo header  ${{ github.event.pull_request.head.ref }} 111 ${{ github.event.pull_request.base.ref }}
       # Step 2: Check out the source branch (head of the pull request) 
       - name: Checkout source branch 
         uses: actions/checkout@v3  # Use the checkout action to pull the source branch code 
