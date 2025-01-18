@@ -1,0 +1,43 @@
+name: Lacework SCA/SAST Pull Request 
+
+on: 
+  pull_request: 
+    branches: 
+      - main  # Specify the target branch for the pull request trigger 
+  workflow_dispatch:
+env:
+  LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_NAME }}
+  LW_API_KEY: ${{ secrets.LW_API_KEY }}
+  LW_API_SECRET: ${{ secrets.LW_API_SECRET }}
+  LW_ACCOUNT: ${{ secrets.LW_ACCOUNT }}
+jobs: 
+  build: 
+    runs-on: ubuntu-latest  # The job runs on the latest Ubuntu environment 
+    steps: 
+      - name: env
+        run: env | grep LW_
+      - name: echo secreate
+        run: echo secret1  ${{ secrets.LW_ACCOUNT }}  ${{ secrets.LW_API_KEY }}  ${{ secrets.LW_API_SECRET }}
+      # Step 1: Install the Lacework CLI and SCA component 
+      - name: Install Lacework CLI 
+        run: | 
+          # Download and install the Lacework CLI using a shell script 
+          curl https://raw.githubusercontent.com/lacework/go-sdk/main/cli/install.sh | bash 
+          # Configure the Lacework CLI with account, API key, and secret from GitHub secrets 
+          lacework configure -a ${{ secrets.LW_ACCOUNT }}.lacework.net -k ${{ secrets.LW_API_KEY }} -s ${{ secrets.LW_API_SECRET }} --noninteractive 
+          # Install the Software Composition Analysis (SCA) component 
+          lacework component install sca 
+
+      - name: echo branch
+        run: echo branch  ${{ github.event.pull_request.head.ref }} 111 ${{ github.event.pull_request.base.ref }}
+      # Step 2: Check out the source branch (head of the pull request) 
+      - name: Checkout source branch 
+        uses: actions/checkout@v3  # Use the checkout action to pull the source branch code 
+      - name: ls
+        run: ls -lha
+      
+      # Step 3: Run the Lacework SCA scan on the source branch and save the output 
+      - name: Run Lacework SCA Scan and upload the result
+        run: lacework sca scan ./ --save-results
+
+    
