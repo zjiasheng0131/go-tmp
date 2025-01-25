@@ -1,0 +1,756 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "fullName": "Lacework SCA",
+          "informationUri": "https://www.lacework.com/",
+          "name": "Lacework SCA",
+          "rules": [
+            {
+              "id": "CVE-2024-45338",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2024-45338"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45338",
+              "help": {
+                "text": "Vulnerability CVE-2024-45338\nSeverity: high\nFixed Version: 0.33.0\nLink: [CVE-2024-45338](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45338)\nAn attacker can craft an input to the Parse functions that would be processed non-linearly with respect to its length, resulting in extremely slow parsing. This could cause a denial of service.",
+                "markdown": "**Vulnerability CVE-2024-45338**\n| Severity | Fixed Version | Link |\n| --- | --- | --- | --- |\n|high|0.33.0|[CVE-2024-45338](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45338)|\n\nAn attacker can craft an input to the Parse functions that would be processed non-linearly with respect to its length, resulting in extremely slow parsing. This could cause a denial of service."
+              },
+              "properties": {
+                "security-severity": "5.3",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "high"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2024-45337",
+              "name": "LanguageSpecificPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2024-45337"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "helpUri": "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45337",
+              "help": {
+                "text": "Vulnerability CVE-2024-45337\nSeverity: critical\nFixed Version: 0.31.0\nLink: [CVE-2024-45337](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45337)\nApplications and libraries which misuse the ServerConfig.PublicKeyCallback callback may be susceptible to an authorization bypass.\n\nThe documentation for ServerConfig.PublicKeyCallback says that \"A call to this function does not guarantee that the key offered is in fact used to authenticate.\" Specifically, the SSH protocol allows clients to inquire about whether a public key is acceptable before proving control of the corresponding private key. PublicKeyCallback may be called with multiple keys, and the order in which the keys were provided cannot be used to infer which key the client successfully authenticated with, if any. Some applications, which store the key(s) passed to PublicKeyCallback (or derived information) and make security relevant determinations based on it once the connection is established, may make incorrect assumptions.\n\nFor example, an attacker may send public keys A and B, and then authenticate with A. PublicKeyCallback would be called only twice, first with A and then with B. A vulnerable application may then make authorization decisions based on key B for which the attacker does not actually control the private key.\n\nSince this API is widely misused, as a partial mitigation golang.org/x/crypto@v0.31.0 enforces the property that, when successfully authenticating via public key, the last key passed to ServerConfig.PublicKeyCallback will be the key used to authenticate the connection. PublicKeyCallback will now be called multiple times with the same key, if necessary. Note that the client may still not control the last key passed to PublicKeyCallback if the connection is then authenticated with a different method, such as PasswordCallback, KeyboardInteractiveCallback, or NoClientAuth.\n\nUsers should be using the Extensions field of the Permissions return value from the various authentication callbacks to record data associated with the authentication attempt instead of referencing external state. Once the connection is established the state corresponding to the successful authentication attempt can be retrieved via the ServerConn.Permissions field. Note that some third-party libraries misuse the Permissions type by sharing it across authentication attempts; users of third-party libraries should refer to the relevant projects for guidance.",
+                "markdown": "**Vulnerability CVE-2024-45337**\n| Severity | Fixed Version | Link |\n| --- | --- | --- | --- |\n|critical|0.31.0|[CVE-2024-45337](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45337)|\n\nApplications and libraries which misuse the ServerConfig.PublicKeyCallback callback may be susceptible to an authorization bypass.\n\nThe documentation for ServerConfig.PublicKeyCallback says that \"A call to this function does not guarantee that the key offered is in fact used to authenticate.\" Specifically, the SSH protocol allows clients to inquire about whether a public key is acceptable before proving control of the corresponding private key. PublicKeyCallback may be called with multiple keys, and the order in which the keys were provided cannot be used to infer which key the client successfully authenticated with, if any. Some applications, which store the key(s) passed to PublicKeyCallback (or derived information) and make security relevant determinations based on it once the connection is established, may make incorrect assumptions.\n\nFor example, an attacker may send public keys A and B, and then authenticate with A. PublicKeyCallback would be called only twice, first with A and then with B. A vulnerable application may then make authorization decisions based on key B for which the attacker does not actually control the private key.\n\nSince this API is widely misused, as a partial mitigation golang.org/x/crypto@v0.31.0 enforces the property that, when successfully authenticating via public key, the last key passed to ServerConfig.PublicKeyCallback will be the key used to authenticate the connection. PublicKeyCallback will now be called multiple times with the same key, if necessary. Note that the client may still not control the last key passed to PublicKeyCallback if the connection is then authenticated with a different method, such as PasswordCallback, KeyboardInteractiveCallback, or NoClientAuth.\n\nUsers should be using the Extensions field of the Permissions return value from the various authentication callbacks to record data associated with the authentication attempt instead of referencing external state. Once the connection is established the state corresponding to the successful authentication attempt can be retrieved via the ServerConn.Permissions field. Note that some third-party libraries misuse the Permissions type by sharing it across authentication attempts; users of third-party libraries should refer to the relevant projects for guidance."
+              },
+              "properties": {
+                "security-severity": "9.1",
+                "tags": [
+                  "vulnerability",
+                  "security",
+                  "critical"
+                ]
+              }
+            },
+            {
+              "id": "insecure-md5-in-crypto-go",
+              "name": "insecure-md5-in-crypto-go",
+              "shortDescription": {
+                "text": "Insecure md5 in crypto"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/328.html",
+              "help": {
+                "text": "Detected use of weak MD5 hash function, which should be avoided when there are security implications"
+              },
+              "properties": {
+                "cweId": "CWE-328",
+                "cweInfo": {
+                  "Name": "Use of Weak Hash",
+                  "WeaknessAbstraction": "Base",
+                  "Status": "Draft",
+                  "Description": "The product uses an algorithm that produces a digest (output value) that does not meet security expectations for a hash function that allows an adversary to reasonably determine the original input (preimage attack), find another input that can produce the same hash (2nd preimage attack), or find multiple inputs that evaluate to the same hash (birthday attack).",
+                  "ExtendedDescription": "A hash function is defined as an algorithm that maps arbitrarily sized data into a fixed-sized digest (output) such that the following properties hold: 1. The algorithm is not invertible (also called one-way or not reversible) 2. The algorithm is deterministic; the same input produces the same digest every time Building on this definition, a cryptographic hash function must also ensure that a malicious actor cannot leverage the hash function to have a reasonable chance of success at determining any of the following: 1. the original input (preimage attack), given only the digest 2. another input that can produce the same digest (2nd preimage attack), given the original input 3. a set of two or more inputs that evaluate to the same digest (birthday attack), given the actor can arbitrarily choose the inputs to be hashed and can do so a reasonable amount of times What is regarded as reasonable varies by context and threat model, but in general, reasonable could cover any attack that is more efficient than brute force (i.e., on average, attempting half of all possible combinations). Note that some attacks might be more efficient than brute force but are still not regarded as achievable in the real world. Any algorithm does not meet the above conditions will generally be considered weak for general use in hashing. In addition to algorithmic weaknesses, a hash function can be made weak by using the hash in a security context that breaks its security guarantees. For example, using a hash function without a salt for storing passwords (that are sufficiently short) could enable an adversary to create a rainbow table [REF-637] to recover the password under certain conditions; this attack works against such hash functions as MD5, SHA-1, and SHA-2.",
+                  "RelatedWeaknesses": "::NATURE:ChildOf:CWE ID:326:VIEW ID:1000::NATURE:ChildOf:CWE ID:327:VIEW ID:1000:ORDINAL:Primary::",
+                  "ApplicablePlatforms": "::LANGUAGE CLASS:Not Language-Specific:LANGUAGE PREVALENCE:Undetermined::TECHNOLOGY CLASS:ICS/OT:TECHNOLOGY PREVALENCE:Undetermined::",
+                  "ModesOfIntroduction": "::PHASE:Architecture and Design:NOTE:COMMISSION: This weakness refers to an incorrect design related to an architectural security tactic.::",
+                  "CommonConsequences": "::SCOPE:Access Control:IMPACT:Bypass Protection Mechanism::",
+                  "DetectionMethods": "::METHOD:Automated Static Analysis:DESCRIPTION:Automated static analysis, commonly referred to as Static Application Security Testing (SAST), can find some instances of this weakness by analyzing source code (or binary/compiled code) without having to execute it. Typically, this is done by building a model of data flow and control flow, then searching for potentially-vulnerable patterns that connect sources (origins of input) with sinks (destinations where the data interacts with external components, a lower layer such as the OS, etc.):EFFECTIVENESS:High::",
+                  "PotentialMitigations": "::PHASE:Architecture and Design:DESCRIPTION:Use an adaptive hash function that can be configured to change the amount of computational effort needed to compute the hash, such as the number of iterations (stretching) or the amount of memory required. Some hash functions perform salting automatically. These functions can significantly increase the overhead for a brute force attack compared to intentionally-fast functions such as MD5. For example, rainbow table attacks can become infeasible due to the high computing overhead. Finally, since computing power gets faster and cheaper over time, the technique can be reconfigured to increase the workload without forcing an entire replacement of the algorithm in use. Some hash functions that have one or more of these desired properties include bcrypt [REF-291], scrypt [REF-292], and PBKDF2 [REF-293]. While there is active debate about which of these is the most effective, they are all stronger than using salts with hash functions with very little computing overhead. Note that using these functions can have an impact on performance, so they require special consideration to avoid denial-of-service attacks. However, their configurability provides finer control over how much CPU and memory is used, so it could be adjusted to suit the environment's needs.:EFFECTIVENESS:High::",
+                  "ObservedExamples": "::REFERENCE:CVE-2022-30320:DESCRIPTION:Programmable Logic Controller (PLC) uses a protocol with a cryptographically insecure hashing algorithm for passwords.:LINK:https://www.cve.org/CVERecord?id=CVE-2022-30320::REFERENCE:CVE-2005-4900:DESCRIPTION:SHA-1 algorithm is not collision-resistant.:LINK:https://www.cve.org/CVERecord?id=CVE-2005-4900::REFERENCE:CVE-2020-25685:DESCRIPTION:DNS product uses a weak hash (CRC32 or SHA-1) of the query name, allowing attacker to forge responses by computing domain names with the same hash.:LINK:https://www.cve.org/CVERecord?id=CVE-2020-25685::REFERENCE:CVE-2012-6707:DESCRIPTION:blogging product uses MD5-based algorithm for passwords.:LINK:https://www.cve.org/CVERecord?id=CVE-2012-6707::REFERENCE:CVE-2019-14855:DESCRIPTION:forging of certificate signatures using SHA-1 collisions.:LINK:https://www.cve.org/CVERecord?id=CVE-2019-14855::REFERENCE:CVE-2017-15999:DESCRIPTION:mobile app for backup sends SHA-1 hash of password in cleartext.:LINK:https://www.cve.org/CVERecord?id=CVE-2017-15999::REFERENCE:CVE-2006-4068:DESCRIPTION:Hard-coded hashed values for username and password contained in client-side script, allowing brute-force offline attacks.:LINK:https://www.cve.org/CVERecord?id=CVE-2006-4068::",
+                  "TaxonomyMappings": "::TAXONOMY NAME:PLOVER:ENTRY NAME:Reversible One-Way Hash::",
+                  "RelatedAttackPatterns": "::461::68::",
+                  "Notes": "::TYPE:Maintenance:NOTE:Since CWE 4.4, various cryptography-related entries including CWE-328 have been slated for extensive research, analysis, and community consultation to define consistent terminology, improve relationships, and reduce overlap or duplication. As of CWE 4.6, this work is still ongoing.::"
+                },
+                "tags": [
+                  "CWE-328: Use of Weak Hash",
+                  "weakness",
+                  "security"
+                ]
+              }
+            },
+            {
+              "id": "cookie-without-httponly-attr-in-http-go",
+              "name": "cookie-without-httponly-attr-in-http-go",
+              "shortDescription": {
+                "text": "Cookie without httponly attr in http"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/1004.html",
+              "help": {
+                "text": "Detected cookie without the HttpOnly attribute set, which is a bad practice and may allow Cross-Site Scripting (XSS) attacks"
+              },
+              "properties": {
+                "cweId": "CWE-1004",
+                "cweInfo": {
+                  "Name": "Sensitive Cookie Without 'HttpOnly' Flag",
+                  "WeaknessAbstraction": "Variant",
+                  "Status": "Incomplete",
+                  "Description": "The product uses a cookie to store sensitive information, but the cookie is not marked with the HttpOnly flag.",
+                  "ExtendedDescription": "The HttpOnly flag directs compatible browsers to prevent client-side script from accessing cookies. Including the HttpOnly flag in the Set-Cookie HTTP response header helps mitigate the risk associated with Cross-Site Scripting (XSS) where an attacker's script code might attempt to read the contents of a cookie and exfiltrate information obtained. When set, browsers that support the flag will not reveal the contents of the cookie to a third party via client-side script executed via XSS.",
+                  "RelatedWeaknesses": "::NATURE:ChildOf:CWE ID:732:VIEW ID:1000:ORDINAL:Primary::",
+                  "ApplicablePlatforms": "::LANGUAGE CLASS:Not Language-Specific:LANGUAGE PREVALENCE:Undetermined::TECHNOLOGY CLASS:Web Based:TECHNOLOGY PREVALENCE:Undetermined::",
+                  "BackgroundDetails": "::An HTTP cookie is a small piece of data attributed to a specific website and stored on the user's computer by the user's web browser. This data can be leveraged for a variety of purposes including saving information entered into form fields, recording user activity, and for authentication purposes. Cookies used to save or record information generated by the user are accessed and modified by script code embedded in a web page. While cookies used for authentication are created by the website's server and sent to the user to be attached to future requests. These authentication cookies are often not meant to be accessed by the web page sent to the user, and are instead just supposed to be attached to future requests to verify authentication details.::",
+                  "ModesOfIntroduction": "::PHASE:Implementation::",
+                  "CommonConsequences": "::SCOPE:Confidentiality:IMPACT:Read Application Data:NOTE:If the HttpOnly flag is not set, then sensitive information stored in the cookie may be exposed to unintended parties.::SCOPE:Integrity:IMPACT:Gain Privileges or Assume Identity:NOTE:If the cookie in question is an authentication cookie, then not setting the HttpOnly flag may allow an adversary to steal authentication data (e.g., a session ID) and assume the identity of the user.::",
+                  "DetectionMethods": "::METHOD:Automated Static Analysis:DESCRIPTION:Automated static analysis, commonly referred to as Static Application Security Testing (SAST), can find some instances of this weakness by analyzing source code (or binary/compiled code) without having to execute it. Typically, this is done by building a model of data flow and control flow, then searching for potentially-vulnerable patterns that connect sources (origins of input) with sinks (destinations where the data interacts with external components, a lower layer such as the OS, etc.):EFFECTIVENESS:High::",
+                  "PotentialMitigations": "::PHASE:Implementation:DESCRIPTION:Leverage the HttpOnly flag when setting a sensitive cookie in a response.:EFFECTIVENESS:High::",
+                  "ObservedExamples": "::REFERENCE:CVE-2022-24045:DESCRIPTION:Web application for a room automation system has client-side Javascript that sets a sensitive cookie without the HTTPOnly security attribute, allowing the cookie to be accessed.:LINK:https://www.cve.org/CVERecord?id=CVE-2022-24045::REFERENCE:CVE-2014-3852:DESCRIPTION:CMS written in Python does not include the HTTPOnly flag in a Set-Cookie header, allowing remote attackers to obtain potentially sensitive information via script access to this cookie.:LINK:https://www.cve.org/CVERecord?id=CVE-2014-3852::REFERENCE:CVE-2015-4138:DESCRIPTION:Appliance for managing encrypted communications does not use HttpOnly flag.:LINK:https://www.cve.org/CVERecord?id=CVE-2015-4138::"
+                },
+                "tags": [
+                  "CWE-1004: Sensitive Cookie Without 'HttpOnly' Flag",
+                  "weakness",
+                  "security"
+                ]
+              }
+            },
+            {
+              "id": "cookie-without-secure-attr-in-http-go",
+              "name": "cookie-without-secure-attr-in-http-go",
+              "shortDescription": {
+                "text": "Cookie without secure attr in http"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/614.html",
+              "help": {
+                "text": "Detected cookie without the Secure attribute set, which is a bad practice and may lead to plaintext transport of sensitive information"
+              },
+              "properties": {
+                "cweId": "CWE-614",
+                "cweInfo": {
+                  "Name": "Sensitive Cookie in HTTPS Session Without 'Secure' Attribute",
+                  "WeaknessAbstraction": "Variant",
+                  "Status": "Draft",
+                  "Description": "The Secure attribute for sensitive cookies in HTTPS sessions is not set, which could cause the user agent to send those cookies in plaintext over an HTTP session.",
+                  "RelatedWeaknesses": "::NATURE:ChildOf:CWE ID:319:VIEW ID:1000:ORDINAL:Primary::",
+                  "ApplicablePlatforms": "::TECHNOLOGY CLASS:Web Based:TECHNOLOGY PREVALENCE:Undetermined::",
+                  "ModesOfIntroduction": "::PHASE:Implementation::",
+                  "CommonConsequences": "::SCOPE:Confidentiality:IMPACT:Read Application Data::",
+                  "DetectionMethods": "::METHOD:Automated Static Analysis:DESCRIPTION:Automated static analysis, commonly referred to as Static Application Security Testing (SAST), can find some instances of this weakness by analyzing source code (or binary/compiled code) without having to execute it. Typically, this is done by building a model of data flow and control flow, then searching for potentially-vulnerable patterns that connect sources (origins of input) with sinks (destinations where the data interacts with external components, a lower layer such as the OS, etc.):EFFECTIVENESS:High::",
+                  "PotentialMitigations": "::PHASE:Implementation:DESCRIPTION:Always set the secure attribute when the cookie should sent via HTTPS only.::",
+                  "ObservedExamples": "::REFERENCE:CVE-2004-0462:DESCRIPTION:A product does not set the Secure attribute for sensitive cookies in HTTPS sessions, which could cause the user agent to send those cookies in plaintext over an HTTP session with the product.:LINK:https://www.cve.org/CVERecord?id=CVE-2004-0462::REFERENCE:CVE-2008-3663:DESCRIPTION:A product does not set the secure flag for the session cookie in an https session, which can cause the cookie to be sent in http requests and make it easier for remote attackers to capture this cookie.:LINK:https://www.cve.org/CVERecord?id=CVE-2008-3663::REFERENCE:CVE-2008-3662:DESCRIPTION:A product does not set the secure flag for the session cookie in an https session, which can cause the cookie to be sent in http requests and make it easier for remote attackers to capture this cookie.:LINK:https://www.cve.org/CVERecord?id=CVE-2008-3662::REFERENCE:CVE-2008-0128:DESCRIPTION:A product does not set the secure flag for a cookie in an https session, which can cause the cookie to be sent in http requests and make it easier for remote attackers to capture this cookie.:LINK:https://www.cve.org/CVERecord?id=CVE-2008-0128::",
+                  "RelatedAttackPatterns": "::102::"
+                },
+                "tags": [
+                  "CWE-614: Sensitive Cookie in HTTPS Session Without 'Secure' Attribute",
+                  "weakness",
+                  "security"
+                ]
+              }
+            },
+            {
+              "id": "plaintext-tranfer-of-sensitive-info-in-http-go",
+              "name": "plaintext-tranfer-of-sensitive-info-in-http-go",
+              "shortDescription": {
+                "text": "Plaintext tranfer of sensitive info in http"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/319.html",
+              "help": {
+                "text": "Detected an HTTP server listening on an insecure (unencrypted) channel"
+              },
+              "properties": {
+                "cweId": "CWE-319",
+                "cweInfo": {
+                  "Name": "Cleartext Transmission of Sensitive Information",
+                  "WeaknessAbstraction": "Base",
+                  "Status": "Draft",
+                  "Description": "The product transmits sensitive or security-critical data in cleartext in a communication channel that can be sniffed by unauthorized actors.",
+                  "ExtendedDescription": "Many communication channels can be sniffed (monitored) by adversaries during data transmission. For example, in networking, packets can traverse many intermediary nodes from the source to the destination, whether across the internet, an internal network, the cloud, etc. Some actors might have privileged access to a network interface or any link along the channel, such as a router, but they might not be authorized to collect the underlying data. As a result, network traffic could be sniffed by adversaries, spilling security-critical data. Applicable communication channels are not limited to software products. Applicable channels include hardware-specific technologies such as internal hardware networks and external debug channels, supporting remote JTAG debugging. When mitigations are not applied to combat adversaries within the product's threat model, this weakness significantly lowers the difficulty of exploitation by such adversaries. When full communications are recorded or logged, such as with a packet dump, an adversary could attempt to obtain the dump long after the transmission has occurred and try to sniff the cleartext from the recorded communications in the dump itself. Even if the information is encoded in a way that is not human-readable, certain techniques could determine which encoding is being used, then decode the information.",
+                  "RelatedWeaknesses": "::NATURE:ChildOf:CWE ID:311:VIEW ID:1000:ORDINAL:Primary::NATURE:ChildOf:CWE ID:311:VIEW ID:1003:ORDINAL:Primary::",
+                  "ApplicablePlatforms": "::LANGUAGE CLASS:Not Language-Specific:LANGUAGE PREVALENCE:Undetermined::TECHNOLOGY CLASS:Cloud Computing:TECHNOLOGY PREVALENCE:Undetermined::TECHNOLOGY CLASS:Mobile:TECHNOLOGY PREVALENCE:Undetermined::TECHNOLOGY CLASS:ICS/OT:TECHNOLOGY PREVALENCE:Often::TECHNOLOGY CLASS:System on Chip:TECHNOLOGY PREVALENCE:Undetermined::TECHNOLOGY NAME:Test/Debug Hardware:TECHNOLOGY PREVALENCE:Often::",
+                  "ModesOfIntroduction": "::PHASE:Architecture and Design:NOTE:OMISSION: This weakness is caused by missing a security tactic during the architecture and design phase.::PHASE:Architecture and Design:NOTE:For hardware, this may be introduced when design does not plan for an attacker having physical access while a legitimate user is remotely operating the device.::PHASE:Operation::PHASE:System Configuration::",
+                  "CommonConsequences": "::SCOPE:Integrity:SCOPE:Confidentiality:IMPACT:Read Application Data:IMPACT:Modify Files or Directories:NOTE:Anyone can read the information by gaining access to the channel being used for communication.::",
+                  "DetectionMethods": "::METHOD:Black Box:DESCRIPTION:Use monitoring tools that examine the software's process as it interacts with the operating system and the network. This technique is useful in cases when source code is unavailable, if the software was not developed by you, or if you want to verify that the build phase did not introduce any new weaknesses. Examples include debuggers that directly attach to the running process; system-call tracing utilities such as truss (Solaris) and strace (Linux); system activity monitors such as FileMon, RegMon, Process Monitor, and other Sysinternals utilities (Windows); and sniffers and protocol analyzers that monitor network traffic. Attach the monitor to the process, trigger the feature that sends the data, and look for the presence or absence of common cryptographic functions in the call tree. Monitor the network and determine if the data packets contain readable commands. Tools exist for detecting if certain encodings are in use. If the traffic contains high entropy, this might indicate the usage of encryption.::METHOD:Automated Static Analysis:DESCRIPTION:Automated static analysis, commonly referred to as Static Application Security Testing (SAST), can find some instances of this weakness by analyzing source code (or binary/compiled code) without having to execute it. Typically, this is done by building a model of data flow and control flow, then searching for potentially-vulnerable patterns that connect sources (origins of input) with sinks (destinations where the data interacts with external components, a lower layer such as the OS, etc.):EFFECTIVENESS:High::",
+                  "PotentialMitigations": "::PHASE:Architecture and Design:DESCRIPTION:Before transmitting, encrypt the data using reliable, confidentiality-protecting cryptographic protocols.::PHASE:Implementation:DESCRIPTION:When using web applications with SSL, use SSL for the entire session from login to logout, not just for the initial login page.::PHASE:Implementation:DESCRIPTION:When designing hardware platforms, ensure that approved encryption algorithms (such as those recommended by NIST) protect paths from security critical data to trusted user applications.::PHASE:Testing:DESCRIPTION:Use tools and techniques that require manual (human) analysis, such as penetration testing, threat modeling, and interactive tools that allow the tester to record and modify an active session. These may be more effective than strictly automated techniques. This is especially the case with weaknesses that are related to design and business rules.::PHASE:Operation:DESCRIPTION:Configure servers to use encrypted channels for communication, which may include SSL or other secure protocols.::",
+                  "ObservedExamples": "::REFERENCE:CVE-2022-29519:DESCRIPTION:Programmable Logic Controller (PLC) sends sensitive information in plaintext, including passwords and session tokens.:LINK:https://www.cve.org/CVERecord?id=CVE-2022-29519::REFERENCE:CVE-2022-30312:DESCRIPTION:Building Controller uses a protocol that transmits authentication credentials in plaintext.:LINK:https://www.cve.org/CVERecord?id=CVE-2022-30312::REFERENCE:CVE-2022-31204:DESCRIPTION:Programmable Logic Controller (PLC) sends password in plaintext.:LINK:https://www.cve.org/CVERecord?id=CVE-2022-31204::REFERENCE:CVE-2002-1949:DESCRIPTION:Passwords transmitted in cleartext.:LINK:https://www.cve.org/CVERecord?id=CVE-2002-1949::REFERENCE:CVE-2008-4122:DESCRIPTION:Chain: Use of HTTPS cookie without secure flag causes it to be transmitted across unencrypted HTTP.:LINK:https://www.cve.org/CVERecord?id=CVE-2008-4122::REFERENCE:CVE-2008-3289:DESCRIPTION:Product sends password hash in cleartext in violation of intended policy.:LINK:https://www.cve.org/CVERecord?id=CVE-2008-3289::REFERENCE:CVE-2008-4390:DESCRIPTION:Remote management feature sends sensitive information including passwords in cleartext.:LINK:https://www.cve.org/CVERecord?id=CVE-2008-4390::REFERENCE:CVE-2007-5626:DESCRIPTION:Backup routine sends password in cleartext in email.:LINK:https://www.cve.org/CVERecord?id=CVE-2007-5626::REFERENCE:CVE-2004-1852:DESCRIPTION:Product transmits Blowfish encryption key in cleartext.:LINK:https://www.cve.org/CVERecord?id=CVE-2004-1852::REFERENCE:CVE-2008-0374:DESCRIPTION:Printer sends configuration information, including administrative password, in cleartext.:LINK:https://www.cve.org/CVERecord?id=CVE-2008-0374::REFERENCE:CVE-2007-4961:DESCRIPTION:Chain: cleartext transmission of the MD5 hash of password enables attacks against a server that is susceptible to replay (CWE-294).:LINK:https://www.cve.org/CVERecord?id=CVE-2007-4961::REFERENCE:CVE-2007-4786:DESCRIPTION:Product sends passwords in cleartext to a log server.:LINK:https://www.cve.org/CVERecord?id=CVE-2007-4786::REFERENCE:CVE-2005-3140:DESCRIPTION:Product sends file with cleartext passwords in e-mail message intended for diagnostic purposes.:LINK:https://www.cve.org/CVERecord?id=CVE-2005-3140::",
+                  "TaxonomyMappings": "::TAXONOMY NAME:PLOVER:ENTRY NAME:Plaintext Transmission of Sensitive Information::TAXONOMY NAME:The CERT Oracle Secure Coding Standard for Java (2011):ENTRY ID:SEC06-J:ENTRY NAME:Do not rely on the default automatic signature verification provided by URLClassLoader and java.util.jar::TAXONOMY NAME:The CERT Oracle Secure Coding Standard for Java (2011):ENTRY ID:SER02-J:ENTRY NAME:Sign then seal sensitive objects before sending them outside a trust boundary::TAXONOMY NAME:Software Fault Patterns:ENTRY ID:SFP23:ENTRY NAME:Exposed Data::TAXONOMY NAME:ISA/IEC 62443:ENTRY ID:Part 3-3:ENTRY NAME:Req SR 4.1::TAXONOMY NAME:ISA/IEC 62443:ENTRY ID:Part 4-2:ENTRY NAME:Req CR 4.1B::",
+                  "RelatedAttackPatterns": "::102::117::383::477::65::",
+                  "Notes": "::TYPE:Maintenance:NOTE:The Taxonomy_Mappings to ISA/IEC 62443 were added in CWE 4.10, but they are still under review and might change in future CWE versions. These draft mappings were performed by members of the Mapping CWE to 62443 subgroup of the CWE-CAPEC ICS/OT Special Interest Group (SIG), and their work is incomplete as of CWE 4.10. The mappings are included to facilitate discussion and review by the broader ICS/OT community, and they are likely to change in future CWE versions.::"
+                },
+                "tags": [
+                  "CWE-319: Cleartext Transmission of Sensitive Information",
+                  "weakness",
+                  "security"
+                ]
+              }
+            },
+            {
+              "id": "AGPL-3.0",
+              "name": "License",
+              "shortDescription": {
+                "text": "forbidden"
+              },
+              "fullDescription": {
+                "text": "AGPL-3.0"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "help": {
+                "text": "License AGPL-3.0\nCategory: forbidden",
+                "markdown": "**License AGPL-3.0**\n| Category |\n| --- |\n|forbidden|"
+              },
+              "properties": {
+                "tags": [
+                  "AGPL-3.0",
+                  "license",
+                  "forbidden"
+                ]
+              }
+            }
+          ],
+          "version": "0.1.26"
+        }
+      },
+      "results": [
+        {
+          "properties": {
+            "lastEdit": {
+              "time": "2025-01-06T11:33:43-08:00",
+              "revision": "03f21ebddb512dc9da6cd1eed353dc6362ffa80a",
+              "author": {
+                "name": "jiasheng zhang",
+                "email": "zjiasheng@fortinet.com"
+              },
+              "committer": {
+                "name": "jiasheng zhang",
+                "email": "zjiasheng@fortinet.com"
+              }
+            },
+            "repository": {
+              "kind": "git",
+              "location": "https://github.com/zjiasheng0131/go-tmp.git",
+              "branch": "a2",
+              "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf"
+            }
+          },
+          "ruleId": "CVE-2024-45338",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": "Package: golang.org/x/net@0.25.0\nVulnerability CVE-2024-45338 (severity: high, fixed in 0.33.0)\nSmartFix: 0.33.0 (Minimal version with no known vulnerabilities)\nLink: [CVE-2024-45338](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45338)\nExplanation: Why is this SmartFix recommended?\n\nSorted Version Graph for package pkg:golang/golang.org/x/net@0.25.0\n  0.25.0 is vulnerable:\n    high       CVE-2024-45338       FixVersion= 0.33.0\n  0.33.0 is not vulnerable\n\nFix recommendations for package pkg:golang/golang.org/x/net@0.25.0\n  0.33.0 is the minimal version with no known vulnerabilities\n  0.33.0 is the maximum version and it has no known vulnerabilities\n\nStats: the Version Graph has 2 versions (nodes) and 1 CVEs (edges) (diameter=1)\n\n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "go.sum",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 56,
+                  "endLine": 56
+                }
+              },
+              "message": {
+                "text": "go.sum: golang.org/x/net@0.25.0"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "go.sum",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 146,
+                  "endLine": 146
+                }
+              },
+              "message": {
+                "text": "go.sum: golang.org/x/net@0.25.0"
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "hash/v1": "f6b8ddf8b10d466d1162e23d16369dee789bfda7"
+          }
+        },
+        {
+          "properties": {
+            "lastEdit": {
+              "time": "2025-01-09T14:10:53-08:00",
+              "revision": "75ebb69e19335c831448475eaf86384808146ca3",
+              "author": {
+                "name": "jiasheng zhang",
+                "email": "zjiasheng@fortinet.com"
+              },
+              "committer": {
+                "name": "jiasheng zhang",
+                "email": "zjiasheng@fortinet.com"
+              }
+            },
+            "repository": {
+              "kind": "git",
+              "location": "https://github.com/zjiasheng0131/go-tmp.git",
+              "branch": "a2",
+              "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf"
+            }
+          },
+          "ruleId": "CVE-2024-45337",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "Package: golang.org/x/crypto@0.23.0\nVulnerability CVE-2024-45337 (severity: critical, fixed in 0.31.0)\nSmartFix: 0.31.0 (Minimal version with no known vulnerabilities)\nLink: [CVE-2024-45337](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-45337)\nExplanation: Why is this SmartFix recommended?\n\nSorted Version Graph for package pkg:golang/golang.org/x/crypto@0.23.0\n  0.23.0 is vulnerable:\n    critical   CVE-2024-45337       FixVersion= 0.31.0\n  0.31.0 is not vulnerable\n\nFix recommendations for package pkg:golang/golang.org/x/crypto@0.23.0\n  0.31.0 is the minimal version with no known vulnerabilities\n  0.31.0 is the maximum version and it has no known vulnerabilities\n\nStats: the Version Graph has 2 versions (nodes) and 1 CVEs (edges) (diameter=1)\n\n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "go.sum",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 54,
+                  "endLine": 54
+                }
+              },
+              "message": {
+                "text": "go.sum: golang.org/x/crypto@0.23.0"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "go.sum",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 136,
+                  "endLine": 136
+                }
+              },
+              "message": {
+                "text": "go.sum: golang.org/x/crypto@0.23.0"
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "hash/v1": "c51edf6e9df5f5fc842147abedd1b5fd805d1abb"
+          }
+        },
+        {
+          "properties": {
+            "repository": {
+              "kind": "git",
+              "location": "https://github.com/zjiasheng0131/go-tmp.git",
+              "branch": "a2",
+              "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf"
+            }
+          },
+          "ruleId": "insecure-md5-in-crypto-go",
+          "ruleIndex": 2,
+          "level": "note",
+          "message": {
+            "text": "Detected use of weak MD5 hash function, which should be avoided when there are security implications"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tmp/c328.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 13,
+                  "endLine": 19,
+                  "endColumn": 13,
+                  "snippet": {
+                    "text": "    defer file.Close()\n\n    // 存在CWE-328漏洞：使用弱哈希函数MD5\n    hash := md5.New()\n    if _, err := io.Copy(hash, file); err != nil {\n        fmt.Println(\"Error hashing file:\", err)\n        return\n    }\n"
+                  }
+                }
+              },
+              "message": {
+                "text": "tmp/c328.go: tmp"
+              },
+              "properties": {
+                "lastEdit": {
+                  "time": "2025-01-16T18:15:07-08:00",
+                  "revision": "f1dac311144673a69f90a282e5590c0d560a5e22",
+                  "author": {
+                    "name": "jiasheng zhang",
+                    "email": "zjiasheng@fortinet.com"
+                  },
+                  "committer": {
+                    "name": "jiasheng zhang",
+                    "email": "zjiasheng@fortinet.com"
+                  }
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "hash/v1": "A8E24E0ACD978C43"
+          }
+        },
+        {
+          "properties": {
+            "repository": {
+              "kind": "git",
+              "location": "https://github.com/zjiasheng0131/go-tmp.git",
+              "branch": "a2",
+              "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf"
+            }
+          },
+          "ruleId": "cookie-without-httponly-attr-in-http-go",
+          "ruleIndex": 3,
+          "level": "note",
+          "message": {
+            "text": "Detected cookie without the HttpOnly attribute set, which is a bad practice and may allow Cross-Site Scripting (XSS) attacks"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tmp/c614.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 14,
+                  "endLine": 24,
+                  "endColumn": 14,
+                  "snippet": {
+                    "text": "\t\tsessionID := fmt.Sprintf(\"session-%d\", r.ContentLength) // Insecure session ID generation\n\t\t\n\t\t// Store the session ID in a cookie\n\t\tcookie := \u0026http.Cookie{\n\t\t\tName:  \"SESSIONID\",\n\t\t\tValue: sessionID,\n\t\t\tPath:  \"/\",\n\t\t}\n\t\thttp.SetCookie(w, cookie)\n\n\t\tfmt.Fprintf(w, \"Session started with ID: %s\", sessionID)\n\t})\n"
+                  }
+                }
+              },
+              "message": {
+                "text": "tmp/c614.go: tmp"
+              },
+              "properties": {
+                "lastEdit": {
+                  "time": "2025-01-23T16:23:09-08:00",
+                  "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf",
+                  "author": {
+                    "name": "jiasheng zhang",
+                    "email": "zjiasheng@fortinet.com"
+                  },
+                  "committer": {
+                    "name": "jiasheng zhang",
+                    "email": "zjiasheng@fortinet.com"
+                  }
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "hash/v1": "7EA830FD8CD94CC5"
+          }
+        },
+        {
+          "properties": {
+            "repository": {
+              "kind": "git",
+              "location": "https://github.com/zjiasheng0131/go-tmp.git",
+              "branch": "a2",
+              "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf"
+            }
+          },
+          "ruleId": "cookie-without-secure-attr-in-http-go",
+          "ruleIndex": 4,
+          "level": "note",
+          "message": {
+            "text": "Detected cookie without the Secure attribute set, which is a bad practice and may lead to plaintext transport of sensitive information"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tmp/c614.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 14,
+                  "endLine": 24,
+                  "endColumn": 14,
+                  "snippet": {
+                    "text": "\t\tsessionID := fmt.Sprintf(\"session-%d\", r.ContentLength) // Insecure session ID generation\n\t\t\n\t\t// Store the session ID in a cookie\n\t\tcookie := \u0026http.Cookie{\n\t\t\tName:  \"SESSIONID\",\n\t\t\tValue: sessionID,\n\t\t\tPath:  \"/\",\n\t\t}\n\t\thttp.SetCookie(w, cookie)\n\n\t\tfmt.Fprintf(w, \"Session started with ID: %s\", sessionID)\n\t})\n"
+                  }
+                }
+              },
+              "message": {
+                "text": "tmp/c614.go: tmp"
+              },
+              "properties": {
+                "lastEdit": {
+                  "time": "2025-01-23T16:23:09-08:00",
+                  "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf",
+                  "author": {
+                    "name": "jiasheng zhang",
+                    "email": "zjiasheng@fortinet.com"
+                  },
+                  "committer": {
+                    "name": "jiasheng zhang",
+                    "email": "zjiasheng@fortinet.com"
+                  }
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "hash/v1": "442B3520A9D237D2"
+          }
+        },
+        {
+          "properties": {
+            "repository": {
+              "kind": "git",
+              "location": "https://github.com/zjiasheng0131/go-tmp.git",
+              "branch": "a2",
+              "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf"
+            }
+          },
+          "ruleId": "plaintext-tranfer-of-sensitive-info-in-http-go",
+          "ruleIndex": 5,
+          "level": "note",
+          "message": {
+            "text": "Detected an HTTP server listening on an insecure (unencrypted) channel"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tmp/c614.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 31,
+                  "startColumn": 2,
+                  "endLine": 31,
+                  "endColumn": 2,
+                  "snippet": {
+                    "text": "\t})\n\n\tfmt.Println(\"Server is running on http://localhost:8080\")\n\thttp.ListenAndServe(\":8080\", nil)\n}"
+                  }
+                }
+              },
+              "message": {
+                "text": "tmp/c614.go: tmp"
+              },
+              "properties": {
+                "lastEdit": {
+                  "time": "2025-01-23T16:23:09-08:00",
+                  "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf",
+                  "author": {
+                    "name": "jiasheng zhang",
+                    "email": "zjiasheng@fortinet.com"
+                  },
+                  "committer": {
+                    "name": "jiasheng zhang",
+                    "email": "zjiasheng@fortinet.com"
+                  }
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "hash/v1": "DD21AE7AD10A2C8D"
+          }
+        },
+        {
+          "properties": {
+            "repository": {
+              "kind": "git",
+              "location": "https://github.com/zjiasheng0131/go-tmp.git",
+              "branch": "a2",
+              "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf"
+            }
+          },
+          "ruleId": "plaintext-tranfer-of-sensitive-info-in-http-go",
+          "ruleIndex": 5,
+          "level": "note",
+          "message": {
+            "text": "Detected an HTTP server listening on an insecure (unencrypted) channel"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tmp/cve346.go",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 23,
+                  "startColumn": 2,
+                  "endLine": 23,
+                  "endColumn": 2,
+                  "snippet": {
+                    "text": "func main() {\n\thttp.HandleFunc(\"/login\", insecureAuthHandler)\n\tfmt.Println(\"Server is running on port 8080...\")\n\thttp.ListenAndServe(\":8080\", nil)\n}\n"
+                  }
+                }
+              },
+              "message": {
+                "text": "tmp/cve346.go: tmp"
+              },
+              "properties": {
+                "lastEdit": {
+                  "time": "2025-01-17T14:11:53-08:00",
+                  "revision": "c95fcf37729df8d233bffb1e49397df659f34651",
+                  "author": {
+                    "name": "jiasheng zhang",
+                    "email": "zjiasheng@fortinet.com"
+                  },
+                  "committer": {
+                    "name": "jiasheng zhang",
+                    "email": "zjiasheng@fortinet.com"
+                  }
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "hash/v1": "5DFDAF53FF7B0676"
+          }
+        },
+        {
+          "properties": {
+            "repository": {
+              "kind": "git",
+              "location": "https://github.com/zjiasheng0131/go-tmp.git",
+              "branch": "a2",
+              "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf"
+            }
+          },
+          "ruleId": "AGPL-3.0",
+          "ruleIndex": 6,
+          "level": "error",
+          "message": {
+            "text": "Package github.com/james-0131-2/agpl3@0.0.0-20250109215212-352fc73dd746 has license AGPL-3.0 (category: forbidden)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "go.sum",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 32,
+                  "endLine": 32
+                }
+              },
+              "message": {
+                "text": "go.sum: github.com/james-0131-2/agpl3@0.0.0-20250109215212-352fc73dd746"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "go.sum",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 54,
+                  "endLine": 54
+                }
+              },
+              "message": {
+                "text": "go.sum: github.com/james-0131-2/agpl3@0.0.0-20250109215212-352fc73dd746"
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "hash/v1": "9f2923b8003bab926577030053c25351ef7ca84e"
+          }
+        },
+        {
+          "properties": {
+            "repository": {
+              "kind": "git",
+              "location": "https://github.com/zjiasheng0131/go-tmp.git",
+              "branch": "a2",
+              "revision": "b4288e61e508eedd929b2e03889a13bfa20bb4bf"
+            }
+          },
+          "ruleId": "AGPL-3.0",
+          "ruleIndex": 6,
+          "level": "error",
+          "message": {
+            "text": "Package github.com/james-0131-2/jamesgo1@0.0.0-20250103023539-990c978a98fc has license AGPL-3.0 (category: forbidden)"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "go.sum",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 34,
+                  "endLine": 34
+                }
+              },
+              "message": {
+                "text": "go.sum: github.com/james-0131-2/jamesgo1@0.0.0-20250103023539-990c978a98fc"
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "go.sum",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 60,
+                  "endLine": 60
+                }
+              },
+              "message": {
+                "text": "go.sum: github.com/james-0131-2/jamesgo1@0.0.0-20250103023539-990c978a98fc"
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "hash/v1": "4271d4ddc24b5c9c083614ec571a09ec1e615bf9"
+          }
+        }
+      ],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "file:///root/go/go-tmp"
+        }
+      },
+      "versionControlProvenance": [
+        {
+          "branch": "a2",
+          "repositoryUri": "https://github.com/zjiasheng0131/go-tmp.git",
+          "revisionId": "b4288e61e508eedd929b2e03889a13bfa20bb4bf"
+        }
+      ]
+    }
+  ]
+}
