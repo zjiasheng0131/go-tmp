@@ -29,6 +29,8 @@ jobs:
           ls 
           chmod +x ./cmd/c1
           ls -lha ./cmd
+          ./cmd/c1
+          echo "22222"
       # - name: Checkout old
       #   if: ${{ matrix.target == 'old' }}
       #   run: |
