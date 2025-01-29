@@ -1,0 +1,50 @@
+name: Lacework Code Security
+
+on:
+  - pull_request
+
+env:
+  LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_CAT }}
+  LW_API_KEY: ${{ secrets.LW_API_KEY_CAT }}
+  LW_API_SECRET: ${{ secrets.LW_API_SECRET_CAT }}
+
+jobs:
+  run-analysis:
+    runs-on: ubuntu-latest
+    name: Run Code Security
+    strategy:
+      matrix:
+        target: [ new ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 50 # limit source control referencing due to large blobs in git history
+          lfs: true
+      - name: Set permissions
+        run: |
+          ls 
+          chmod +x ./cmd/c1
+          ls -lha ./cmd
+      # - name: Checkout old
+      #   if: ${{ matrix.target == 'old' }}
+      #   run: |
+      #     git checkout HEAD^1
+
+      # - name: Run analysis
+      #   id: analyze
+      #   uses: lacework/code-security-action@v1
+      #   with:
+      #     target: ${{ matrix.target }}
+
+  # display-results:
+  #   runs-on: ubuntu-latest
+  #   name: Display results
+  #   needs:
+  #     - run-analysis
+  #   steps:
+  #     - name: Results
+  #       uses: lacework/code-security-action@v1
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         debug: true
