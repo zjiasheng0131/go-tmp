@@ -1,8 +1,11 @@
 name: Lacework Code Security
 
-on:
-  - pull_request
 
+on: 
+  pull_request: 
+    branches: 
+      - main  # Specify the target branch for the pull request trigger 
+  workflow_dispatch:
 env:
   LW_ACCOUNT_NAME: ${{ secrets.LW_ACCOUNT_CAT }}
   LW_API_KEY: ${{ secrets.LW_API_KEY_CAT }}
